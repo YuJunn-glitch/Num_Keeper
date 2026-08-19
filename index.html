@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Number Vault</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="logo">
+                    🔢
+                </div>
+
+                <div>
+                    <h1>Number Vault</h1>
+
+                    <p>
+                        000 — 999 Number Tracker
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+                <div class="status">
+                    <span class="status-dot"></span>
+                    <span>Live Tracker</span>
+                </div>
+
+                <button
+                    class="theme-btn"
+                    id="themeBtn"
+                    type="button"
+                    title="Switch to Day Mode"
+                >
+                    ☀️
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================================
+             STATISTICS
+        ========================================== -->
+
+        <section class="stats">
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Picked
+                    </span>
+
+                    <span class="stat-icon">
+                        🔒
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="pickedCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Remaining
+                    </span>
+
+                    <span class="stat-icon">
+                        🔓
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="remainingCount"
+                >
+                    1000
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Completion
+                    </span>
+
+                    <span class="stat-icon">
+                        📊
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="progressPercent"
+                >
+                    0.0%
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PROGRESS
+        ========================================== -->
+
+        <section class="progress-card">
+
+            <div class="progress-info">
+
+                <span>
+                    Progress
+                </span>
+
+                <strong id="progressText">
+                    0 / 1000
+                </strong>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-bar"
+                    id="progressBar"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             MAIN CONTENT
+        ========================================== -->
+
+        <main class="content">
+
+
+            <!-- =====================================
+                 NUMBER PANEL
+            ====================================== -->
+
+            <section class="number-panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+
+                        <span>🔎</span>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search number... e.g. 027"
+                            maxlength="3"
+                            inputmode="numeric"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="filters">
+
+                        <button
+                            class="filter active"
+                            data-filter="all"
+                            type="button"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            class="filter"
+                            data-filter="remaining"
+                            type="button"
+                        >
+                            Available
+                        </button>
+
+                        <button
+                            class="filter"
+                            data-filter="picked"
+                            type="button"
+                        >
+                            Picked
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="reset"
+                        id="resetBtn"
+                        type="button"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <!-- Search information -->
+
+                <div
+                    class="search-result hidden"
+                    id="searchResult"
+                ></div>
+
+
+                <!-- Number grid -->
+
+                <div
+                    class="number-grid"
+                    id="numberGrid"
+                ></div>
+
+            </section>
+
+
+            <!-- =====================================
+                 PICKED NUMBERS PANEL
+            ====================================== -->
+
+            <aside class="picked-panel">
+
+                <div class="panel-title">
+
+                    <h2>
+                        🔒 Picked Numbers
+                    </h2>
+
+                    <span
+                        class="badge"
+                        id="pickedBadge"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="picked-list"
+                    id="pickedList"
+                ></div>
+
+            </aside>
+
+        </main>
+
+
+        <!-- =========================================
+             FOOTER
+        ========================================== -->
+
+        <footer class="footer">
+
+            Numbers 000–999 •
+            Data is saved automatically on this device
+
+        </footer>
+
+    </div>
+
+
+    <!-- =============================================
+         PICK NUMBER MODAL
+    ============================================== -->
+
+    <div
+        class="modal-overlay"
+        id="pickModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="modal-icon">
+                👤
+            </div>
+
+            <h2>
+                Who picked this number?
+            </h2>
+
+            <p>
+                Enter the name of the person who
+                picked this number.
+            </p>
+
+
+            <div
+                class="modal-number"
+                id="pickModalNumber"
+            >
+                000
+            </div>
+
+
+            <input
+                class="name-input"
+                id="pickerName"
+                type="text"
+                placeholder="Enter person's name..."
+                maxlength="60"
+                autocomplete="off"
+            >
+
+
+            <div class="modal-buttons">
+
+                <button
+                    class="modal-btn cancel-btn"
+                    id="cancelPick"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="modal-btn confirm-btn"
+                    id="confirmPick"
+                    type="button"
+                >
+                    ✓ Confirm Pick
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =============================================
+         UNPICK CONFIRMATION MODAL
+    ============================================== -->
+
+    <div
+        class="modal-overlay"
+        id="unpickModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="modal-icon danger">
+                🔐
+            </div>
+
+            <h2>
+                Unpick this number?
+            </h2>
+
+            <p>
+                This number is already picked by:
+            </p>
+
+
+            <div
+                class="picker-display"
+                id="unpickPicker"
+            >
+                Person
+            </div>
+
+
+            <div
+                class="modal-number"
+                id="unpickModalNumber"
+            >
+                000
+            </div>
+
+
+            <p class="warning-text">
+                This action requires confirmation.
+            </p>
+
+
+            <div class="modal-buttons">
+
+                <button
+                    class="modal-btn cancel-btn"
+                    id="cancelUnpick"
+                    type="button"
+                >
+                    Keep Picked
+                </button>
+
+                <button
+                    class="modal-btn unpick-btn"
+                    id="confirmUnpick"
+                    type="button"
+                >
+                    🔓 Unpick
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
